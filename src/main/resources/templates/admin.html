@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="en">
+<head>
+    <link rel="stylesheet" href="/main.css">
+    <title>WorkWithUsers</title>
+</head>
+<body>
+<h1>Admin panel</h1>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Last name</th>
+        <th>Email</th>
+        <th>Password</th>
+        <th>Roles</th>
+
+
+    </tr>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.firstName}"></td>
+        <td th:text="${user.lastName}"></td>
+        <td th:text="${user.email}"></td>
+        <td th:text="${user.password}"></td>
+        <td th:text="${user.authorities}"></td>
+
+    </tr>
+</table>
+
+<form method="post" action="/admin/add">
+    <label>
+        <input type="text" name="firstName" placeholder="First Name">
+    </label>
+    <label>
+        <input type="text" name="lastName" placeholder="Last Name">
+    </label>
+    <label>
+        <input type="text" name="email" placeholder="Email">
+    </label>
+    <label>
+        <input type="password" name="password" placeholder="Password">
+    </label>
+    <label>
+       <p><select name="role" placeholder = "Role">
+            <option value="ROLE_ADMIN"> ADMIN </option>
+            <option value="ROLE_USER"> USER </option>
+       </select></p>
+    </label>
+    <input type="submit" value="Add User">
+</form>
+
+
+
+<form method="post" action="/admin/update">
+    <label>
+        <input name="id" placeholder="User ID" type="text">
+    </label>
+    <label>
+        <input type="text" name="firstName" placeholder="New Name">
+    </label>
+    <label>
+        <input type="text" name="lastName" placeholder="New Last Name">
+    </label>
+    <label>
+        <input type="text" name="email" placeholder="New Email">
+    </label>
+    <label>
+        <input type="password" name="password" placeholder="New Password">
+    </label>
+    <label>
+        <input type="text" name="role" placeholder="New Role">
+    </label>
+
+    <input type="submit" value="Update User">
+</form>
+
+<form method="post" action="/admin/delete">
+    <label>
+        <input name="id" placeholder="User ID" type="text">
+    </label>
+    <input type="submit" value="Delete User">
+</form>
+
+</body>
+</html>
