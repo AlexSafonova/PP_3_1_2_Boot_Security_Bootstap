@@ -6,7 +6,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -21,7 +23,6 @@ public class User implements UserDetails {
     private String password;
 
 
-
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "users_roles",
@@ -29,13 +30,6 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private List<Role> roles = new ArrayList<>();
-
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
-    }
-    public List<Role> getRoles() {
-        return roles;
-    }
 
     public User(String firstName, String lastName, String email, String password) {
         this.firstName = firstName;
@@ -45,6 +39,14 @@ public class User implements UserDetails {
     }
 
     public User() {
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 
     public Long getId() {
@@ -79,10 +81,6 @@ public class User implements UserDetails {
         this.email = email;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     @Override
     public String toString() {
         return "User{" +
@@ -99,12 +97,16 @@ public class User implements UserDetails {
         for (Role role : this.roles) {
             roles.add(new SimpleGrantedAuthority(role.getRole()));
         }
-        return  roles;
+        return roles;
     }
 
     @Override
     public String getPassword() {
         return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
