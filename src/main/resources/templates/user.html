@@ -1,9 +1,14 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
+    <link rel="stylesheet" href="/main.css">
     <title>Info about user</title>
 </head>
 <body>
+<label>
 <h1>Welcome, <th:block th:text="${user.firstName + ' ' + user.lastName + ', your email is ' + user.email}"></th:block></h1>
+<form th:action="@{/logout}" method="post">
+    <div style="text-align: center;"> <input type="submit" value="Sign Out"/></div>
+</form>
 </body>
 </html>
