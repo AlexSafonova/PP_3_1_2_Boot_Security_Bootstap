@@ -12,7 +12,10 @@ import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repository.RoleRepository;
 import ru.kata.spring.boot_security.demo.repository.UserRepository;
 
+import javax.swing.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserDetailsService{
@@ -45,14 +48,14 @@ public class UserServiceImpl implements UserDetailsService{
 
     @Transactional
     public void updateUser(User user, String role) {
-        Role role1 = roleRepository.findAll().stream().filter(r -> r.getRole().equals(role)).findFirst().orElse(null);
-        assert role1 != null;
-        User user1 = userRepository.findById(user.getId()).orElse(null);
-        List<Role> roles = user1.getRoles();
-        roles.add(role1);
+        List<Role> roles = user.getRoles();
+        if (!roles.contains(roleRepository.findByRole(role))) {
+            roles.add(roleRepository.findByRole(role));
+        }
         user.setRoles(roles);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
+
     }
 
 
@@ -71,5 +74,9 @@ public class UserServiceImpl implements UserDetailsService{
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByEmail(username);
+    }
+    @Transactional(readOnly = true)
+    public User getUser(Long id) {
+        return userRepository.findById(id).orElse(null);
     }
 }

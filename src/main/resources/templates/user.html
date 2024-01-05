@@ -1,14 +1,53 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3" lang="en">
 <head>
-    <link rel="stylesheet" href="/main.css">
-    <title>Info about user</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="/userPage.css">
+    <meta charset="UTF-8">
+    <title>User Info</title>
 </head>
 <body>
-<label>
-<h1>Welcome, <th:block th:text="${user.firstName + ' ' + user.lastName + ', your email is ' + user.email}"></th:block></h1>
-<form th:action="@{/logout}" method="post">
-    <div style="text-align: center;"> <input type="submit" value="Sign Out"/></div>
-</form>
+<h1>
+    <table class="headerForUser">
+        <tr>
+            <td class="headerForUserFirst">
+                <th:block th:text="${presentUser.email + ' with roles: ' + presentUser.getRoles()}" > </th:block>
+            </td>
+            <td class="headerForUserSecond">
+                <form th:action="@{/logout}" method="post">
+                    <input class="headerForUserSecond" type="submit" value="Logout"/>
+                </form>
+            </td>
+        </tr>
+    </table>
+</h1>
+
+<div class="tab">
+    <button class="tablinks" onclick="openTab(event, 'User')" id="defaultOpen">User</button>
+</div>
+
+<div id="User" class="tabcontent">
+    <h3>User information-page</h3>
+    <div style="text-align: left; font-size: 20px; padding: 15px">About user</div>
+    <table id = "userTable" class="userTable">
+        <tr class="userTable">
+            <th class="userTable">ID</th>
+            <th class="userTable">First Name</th>
+            <th class="userTable">Last Name</th>
+            <th class="userTable">Email</th>
+            <th class="userTable">Roles</th>
+        </tr>
+        <tr>
+            <td class="userTable"> <th:block th:text="${presentUser.id}" > </th:block> </td>
+            <td class="userTable"> <th:block th:text="${presentUser.firstName}" > </th:block> </td>
+            <td class="userTable"> <th:block th:text="${presentUser.lastName}" > </th:block> </td>
+            <td class="userTable"> <th:block th:text="${presentUser.email}" > </th:block> </td>
+            <td class="userTable"> <th:block th:text="${presentUser.getRoles()}" > </th:block> </td>
+        </tr>
+    </table>
+</div>
+
+<script src="/userPageJS.js"></script>
+
 </body>
 </html>
