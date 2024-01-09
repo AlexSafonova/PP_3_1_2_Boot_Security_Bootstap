@@ -59,6 +59,7 @@
                                                 th:data-firstname="${user.firstName}"
                                                 th:data-lastname="${user.lastName}"
                                                 th:data-email="${user.email}"
+                                                th:data-password="${user.password}"
                                                 th:data-role="${user.getRoles()}">
                                                 Edit</button></td>
                 <td class="userTable"> <button class = "deleteButton delete-user-button" onclick="deleteUser()"
@@ -88,6 +89,9 @@
                 </label>
                 <label for="editEmail" style="text-align: center">
                     <input type="text" name="email" id="editEmail" >
+                </label>
+                <label for="editPassword" style="text-align: center">
+                    <input type="password" name="password" id="editPassword" >
                 </label>
                 <div>
                     <div style="text-align: center">Role:
@@ -144,8 +148,7 @@
                     <input type="text" name="lastName" placeholder="Last Name" required>
                 </div>
                 <div style="text-align: center">
-                    <input type="email" name="email" placeholder="Email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" >
-                    <span class="validity"></span>
+                    <input type="email" name="email" placeholder="Email" required >
                 </div>
                 <div style="text-align: center">
                     <input type="password" name="password" placeholder="Password" required>

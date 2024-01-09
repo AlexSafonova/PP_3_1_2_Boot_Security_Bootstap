@@ -14,7 +14,9 @@ import ru.kata.spring.boot_security.demo.repository.UserRepository;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,10 +36,11 @@ public class UserServiceImpl implements UserDetailsService{
 
 
     @Transactional
-    public void addUser(User user, String role) {
-        Role role1 = roleRepository.findAll().stream().filter(r -> r.getRole().equals(role)).findFirst().orElse(null);
-        assert role1 != null;
-        user.setRoles(List.of(role1));
+    public void addUser(User user, String[] roles) {
+        for (String role: roles) {
+            user.getRoles().add(roleRepository.findByRole(role));
+        }
+
         if (userRepository.findAll().stream().anyMatch(u -> u.getEmail().equals(user.getEmail()))) {
             throw new IllegalArgumentException("User with this email already exists");
         }
@@ -47,14 +50,18 @@ public class UserServiceImpl implements UserDetailsService{
 
 
     @Transactional
-    public void updateUser(User user, String role) {
-        List<Role> roles = user.getRoles();
-        if (!roles.contains(roleRepository.findByRole(role))) {
-            roles.add(roleRepository.findByRole(role));
+    public void updateUser(User user, String[] roles) {
+        Set<Role> role = new HashSet<>();
+        for (String role1: roles) {
+            role.add(roleRepository.findByRole(role1));
         }
-        user.setRoles(roles);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
+        User user1 = userRepository.findById(user.getId()).orElse(null);
+        user1.setRoles(role);
+        user1.setPassword(passwordEncoder.encode(user.getPassword()));
+        user1.setFirstName(user.getFirstName());
+        user1.setLastName(user.getLastName());
+        user1.setEmail(user.getEmail());
+        userRepository.save(user1);
 
     }
 

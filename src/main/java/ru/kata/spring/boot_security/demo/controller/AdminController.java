@@ -38,26 +38,27 @@ public class AdminController {
     }
     @PostMapping(value = "/add")
     public String addUser(@RequestParam String firstName, @RequestParam String lastName, @RequestParam String email, @RequestParam String password,
-                          @RequestParam String role) {
+                          @RequestParam String[] roles) {
         User user = new User(firstName, lastName, email, password);
 
         if (userService.getAllUsers().stream().anyMatch(user1 -> user1.getEmail().equals(email))) {
             return "redirect:/admin";
         }
-        userService.addUser(user, role);
+        userService.addUser(user, roles);
 
         return "redirect:/admin";
     }
     @PostMapping(value = "/update")
-    public String updateUser(@RequestParam Long id, @RequestParam String firstName, @RequestParam String lastName, @RequestParam String email,  @RequestParam String role) {
+    public String updateUser(@RequestParam Long id, @RequestParam String firstName, @RequestParam String lastName, @RequestParam String email,@RequestParam String password,  @RequestParam String[] roles) {
         User user = userService.getUser(id);
         user.setFirstName(firstName);
         user.setLastName(lastName);
         user.setEmail(email);
+        user.setPassword(password);
         if (userService.getAllUsers().stream().noneMatch(user1 -> user1.getId().equals(id))) {
             return "redirect:/admin";
         }
-        userService.updateUser(user, role);
+        userService.updateUser(user, roles);
         return "redirect:/admin";
     }
 

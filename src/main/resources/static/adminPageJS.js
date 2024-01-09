@@ -45,6 +45,7 @@ function fillFormWithData(button,
     let firstname = button.getAttribute('data-firstname');
     let lastname = button.getAttribute('data-lastname');
     let email = button.getAttribute('data-email');
+    let password = button.getAttribute('data-password');
 
     if (id !== null) {
         document.querySelector(userIdInputId).value = id;
@@ -57,6 +58,9 @@ function fillFormWithData(button,
     }
     if (email !== null) {
         document.querySelector(emailInputId).value = email;
+    }
+    if (password !== null) {
+        document.querySelector(passwordInputId).value = password;
     }
 }
 for (let i = 0; i < document.getElementsByClassName('editButton').length; i++) {
@@ -71,7 +75,8 @@ function editUser () {
         '#editUserId',
         '#editFirstName',
         '#editLastName',
-        '#editEmail');
+        '#editEmail',
+        '#editPassword');
 }
 function deleteUser () {
     document.getElementById('deleteUserModal').style.display='block';
