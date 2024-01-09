@@ -40,7 +40,8 @@ function fillFormWithData(button,
                           userIdInputId,
                           firstNameInputId,
                           lastNameInputId,
-                          emailInputId) {
+                          emailInputId,
+                          passwordInputId) {
     let id = button.getAttribute('data-id');
     let firstname = button.getAttribute('data-firstname');
     let lastname = button.getAttribute('data-lastname');
@@ -86,4 +87,5 @@ function deleteUser () {
         '#deleteLastName',
         '#deleteEmail');
 }
+
 

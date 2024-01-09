@@ -46,7 +46,7 @@
                 <th class="userTable">Edit</th>
                 <th class="userTable">Delete</th>
             </tr>
-            <tr class="userTable" th:each="user:${users}">
+            <tr class="userTable" th:each="user:${users}" >
                 <td class="userTable" th:text="${user.id}"> </td>
                 <td class="userTable" th:text="${user.firstName}" > </td>
                 <td class="userTable" th:text="${user.lastName}" ></td>
@@ -79,25 +79,30 @@
                 <div style="text-align: center; font-size: 20px; margin: 20px">Edit User</div>
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                 <label for="editUserId" style="text-align: center;">
+                    <div>ID</div>
                     <input name="id" id ="editUserId" type="text" readonly >
                 </label>
-                <label for="editFirstName" style="text-align: center">
+                <label for="editFirstName" style="text-align: center" >
+                    <div>First Name</div>
                     <input type="text" name="firstName" id="editFirstName" >
                 </label>
                 <label for="editLastName" style="text-align: center">
+                    <div>Last Name</div>
                     <input type="text" name="lastName" id="editLastName" >
                 </label>
                 <label for="editEmail" style="text-align: center">
+                    <div>Email</div>
                     <input type="text" name="email" id="editEmail" >
                 </label>
                 <label for="editPassword" style="text-align: center">
+                    <div>Password</div>
                     <input type="password" name="password" id="editPassword" >
                 </label>
                 <div>
                     <div style="text-align: center">Role:
-                    <p><select name="role" >
-                        <option value="ROLE_ADMIN"> ADMIN </option>
-                        <option value="ROLE_USER"> USER </option>
+                    <p><select class="user-select-auto" name="roles" multiple>
+                        <option value=2> ADMIN </option>
+                        <option value=1> USER </option>
                     </select></p>
                     </div>
                 </div>
@@ -138,28 +143,41 @@
         </div>
     </div>
     <div id="New User" class="tabcontent2">
-            <form class ="modal-content" method="post" action="/admin/add" >
-                <div style="text-align: center; font-size: 20px; padding: 15px">Add new user </div>
+        <div style="text-align: left; font-size: 20px;background-color: #e7e4e4;padding: 5px">Add new user </div>
+            <form class ="modal-content1" method="post" action="/admin/add" >
+
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-                <div style="text-align: center">
+                <div style="text-align: center; padding-top: 10px" >First Name
+                    <div>
                     <input type="text" name="firstName" placeholder="First Name" required>
+                    </div>
                 </div>
-                <div style="text-align: center">
+                <div style="text-align: center"> Last Name
+                    <div>
                     <input type="text" name="lastName" placeholder="Last Name" required>
+                        </div>
                 </div>
-                <div style="text-align: center">
-                    <input type="email" name="email" placeholder="Email" required >
+                <div style="text-align: center"> Email
+                    <div>
+                    <input type="text" name="email" placeholder="Email" required >
+                        </div>
                 </div>
-                <div style="text-align: center">
+                <div style="text-align: center">Password
+                    <div>
                     <input type="password" name="password" placeholder="Password" required>
+                        </div>
+                </div>
+                <div style="text-align: center ">Role
+                    <div style="text-align: center">
+                    <select class="user-select-auto" name="roles" multiple>
+                        <option value=2> ADMIN </option>
+                        <option value=1> USER </option>
+                    </select>
+                    </div>
                 </div>
                 <div style="text-align: center">
-                    <p><select name="role">
-                        <option value="ROLE_ADMIN"> ADMIN </option>
-                        <option value="ROLE_USER"> USER </option>
-                    </select></p>
-                </div>
-                <input  style="background-color: #4CAF50; color: white; border: none; margin: 10px; width: 30%; text-align: center; align-self: center" type="submit" value="Add New User">
+                <input style="background-color: #4CAF50; color: white; border: none; margin: 10px; width: 15%; text-align: center; align-self: center" type="submit" value="Add New User">
+            </div>
             </form>
     </div>
 </div>

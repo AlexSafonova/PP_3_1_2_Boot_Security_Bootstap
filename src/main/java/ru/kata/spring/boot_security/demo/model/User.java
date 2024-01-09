@@ -6,9 +6,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -19,18 +19,9 @@ public class User implements UserDetails {
     private Long id;
 
     private String firstName;
-
-    public User(String firstName, String lastName, String email) {
-
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-    }
     private String lastName;
     private String email;
     private String password;
-
-
     @ManyToMany
     @JoinTable(
             name = "users_roles",
@@ -38,6 +29,14 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles = new HashSet<>();
+
+
+    public User(String firstName, String lastName, String email) {
+
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+    }
 
     public User(String firstName, String lastName, String email, String password) {
         this.firstName = firstName;

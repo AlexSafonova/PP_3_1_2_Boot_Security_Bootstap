@@ -7,17 +7,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repository.RoleRepository;
 import ru.kata.spring.boot_security.demo.repository.UserRepository;
 
-import javax.swing.*;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserDetailsService{
@@ -51,18 +45,11 @@ public class UserServiceImpl implements UserDetailsService{
 
     @Transactional
     public void updateUser(User user, String[] roles) {
-        Set<Role> role = new HashSet<>();
-        for (String role1: roles) {
-            role.add(roleRepository.findByRole(role1));
+        for (String role : roles) {
+            user.getRoles().add(roleRepository.findByRole(role));
         }
-        User user1 = userRepository.findById(user.getId()).orElse(null);
-        user1.setRoles(role);
-        user1.setPassword(passwordEncoder.encode(user.getPassword()));
-        user1.setFirstName(user.getFirstName());
-        user1.setLastName(user.getLastName());
-        user1.setEmail(user.getEmail());
-        userRepository.save(user1);
-
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userRepository.save(user);
     }
 
 
