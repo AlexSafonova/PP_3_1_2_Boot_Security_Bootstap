@@ -36,7 +36,7 @@
     <!-- Tab content -->
     <div id="UsersTable" class="tabcontent2">
         <div style="text-align: left; font-size: 20px; padding: 15px">All users</div>
-        <table id = "adminTable" class="userTable">
+        <table id = "adminTable" class="userTable" style="padding: 10px">
             <tr class="userTable">
                 <th class="userTable">ID</th>
                 <th class="userTable">First Name</th>
@@ -76,9 +76,10 @@
         <div id="editUserModal" class="modal" aria-labelledby="editUserModalLabel">
             <div class="container1" >
             <form  class ="modal-content" method="post" action="/admin/update" >
-                <div style="text-align: center; font-size: 20px; margin: 20px">Edit User</div>
+                <div style="text-align: left; font-size: 20px; background-color: #e7e7e7; padding: 10px 15px 5px;">Edit user
+                    <span onclick="document.getElementById('editUserModal').style.display='none'" class="close" title="Close Modal">×</span></div>
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-                <label for="editUserId" style="text-align: center;">
+                <label for="editUserId" style="text-align: center; margin-top: 15px">
                     <div>ID</div>
                     <input name="id" id ="editUserId" type="text" readonly >
                 </label>
@@ -100,17 +101,15 @@
                 </label>
                 <div>
                     <div style="text-align: center">Role:
-                    <p><select class="user-select-auto" name="roles" multiple>
+                    <p><select class="user-select-auto" name="roles" multiple required>
                         <option value=2> ADMIN </option>
                         <option value=1> USER </option>
                     </select></p>
                     </div>
                 </div>
-                <div style="align-self: center">
-                <input  style="background-color: #4CAF50; color: white; border: none;margin: 10px; " type="submit" value="Update User">
-                </div>
-                <div style="align-self: center">
-                    <input style="background-color: #6b6b6b; color: white; border: none;margin: 10px; " type="button" onclick="document.getElementById('editUserModal').style.display='none'" value="Cancel">
+                <div style="text-align: right; padding: 10px; background-color: #e7e7e7">
+                    <input style="background-color: #6b6b6b; color: white; border: none; height: 35px; margin-right: 10px; width: 80px" type="button" onclick="document.getElementById('editUserModal').style.display='none'" value="Close">
+                    <input  style="background-color: #4CAF50; color: white; border: none; height: 35px; width: 60px " type="submit" value="Edit">
                 </div>
             </form>
             </div>
@@ -119,24 +118,35 @@
             <div class="container1">
                 <form class ="modal-content" method="post" action="/admin/delete">
                     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-                    <div style="text-align: center; font-size: 20px; margin: 20px">Delete User</div>
+                    <div style="text-align: left; font-size: 20px; background-color: #e7e7e7; padding: 10px 15px 5px;">Delete user
+                        <span onclick="document.getElementById('deleteUserModal').style.display='none'" class="close" title="Close Modal">×</span></div>
                     <label for="deleteUserId"style="text-align: center;">
+                        <div>ID</div>
                         <input name="id" id ="deleteUserId" type="text" readonly>
                     </label>
                     <label for="deleteFirstName" style="text-align: center">
+                        <div>First Name</div>
                         <input type="text" name="firstName" id="deleteFirstName" readonly>
                     </label>
                     <label for="deleteLastName" style="text-align: center">
+                        <div>Last Name</div>
                         <input type="text" name="lastName" id="deleteLastName" readonly>
                     </label>
                     <label for="deleteEmail" style="text-align: center">
+                        <div>Email</div>
                         <input type="text" name="email" id="deleteEmail" readonly >
                     </label>
-                    <div style="text-align: center">
-                    <input style="background-color: #e32020; color: white; border: none;margin: 10px;" type="submit" value="Delete User">
+                    <div>
+                        <div style="text-align: center">Role:
+                            <p><select style="background-color: #d7d7d7" class="user-select-auto" name="roles" multiple readonly>
+                                <option value=2> ADMIN </option>
+                                <option value=1> USER </option>
+                            </select></p>
+                        </div>
                     </div>
-                    <div style="align-self: center">
-                        <input style="background-color: #6b6b6b; color: white; border: none;margin: 10px; " type="button" onclick="document.getElementById('deleteUserModal').style.display='none'" value="Cancel">
+                    <div style="text-align: right; padding: 10px; background-color: #e7e7e7">
+                        <input style="background-color: #6b6b6b; color: white; border: none; height: 35px; margin-right: 10px; width: 80px" type="button" onclick="document.getElementById('deleteUserModal').style.display='none'" value="Close">
+                        <input style="background-color: #f52c2c; color: white; border: none; height: 35px; width: 100px " type="submit" value="Delete">
                     </div>
                 </form>
             </div>
@@ -169,7 +179,7 @@
                 </div>
                 <div style="text-align: center ">Role
                     <div style="text-align: center">
-                    <select class="user-select-auto" name="roles" multiple>
+                    <select class="user-select-auto" name="roles" multiple required>
                         <option value=2> ADMIN </option>
                         <option value=1> USER </option>
                     </select>
