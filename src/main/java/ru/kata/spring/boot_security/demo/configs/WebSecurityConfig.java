@@ -13,13 +13,11 @@ import ru.kata.spring.boot_security.demo.service.UserServiceImpl;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserServiceImpl userService;
-    private final SuccessUserHandler successUserHandler;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public WebSecurityConfig(UserServiceImpl userService, SuccessUserHandler successUserHandler, PasswordEncoder passwordEncoder) {
+    public WebSecurityConfig(UserServiceImpl userService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
-        this.successUserHandler = successUserHandler;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -29,19 +27,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     }
     protected void configure(HttpSecurity http) throws Exception {
-        http
+        http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/", "/login").permitAll()
-                .antMatchers("/user").hasAnyRole("USER", "ADMIN")
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .anyRequest().authenticated()
-                .and()
-                .formLogin().loginPage("/login").successHandler(successUserHandler)
-                .permitAll()
-                .and()
-                .logout().logoutUrl("/logout")
-                .permitAll();
+                .antMatchers("/", "/login").permitAll();
     }
-
 
 }

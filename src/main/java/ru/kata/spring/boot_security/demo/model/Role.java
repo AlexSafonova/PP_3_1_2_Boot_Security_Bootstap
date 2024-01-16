@@ -14,7 +14,7 @@ public class Role implements GrantedAuthority {
     private Long id;
 
     private String role;
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany
     private List<User> users;
 
     public String getRole() {

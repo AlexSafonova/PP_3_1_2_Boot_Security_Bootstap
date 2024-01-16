@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="en">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="/main.css">
+    <title>WorkWithUsers</title>
+</head>
+<body>
+<h1>
+    <table class="headerForUser">
+        <tr>
+            <td class="headerForUserFirst">
+                 TODO
+            </td>
+            <td class="headerForUserSecond">
+                <form th:action="@{/logout}" method="post">
+                    <input class="headerForUserSecond" type="submit" value="Logout"/>
+                </form>
+            </td>
+        </tr>
+    </table>
+</h1>
+
+<div class="tab">
+    <button class="tablinks" onclick="openCity(event, 'Admin')" id="defaultOpen">Admin</button>
+    <button class="tablinks" onclick="openCity(event, 'UserInformPage')" >User</button>
+</div>
+
+<div id="Admin" class="tabcontent">
+    <h3>Admin panel</h3><!-- Tab links -->
+    <div class="tab1">
+        <button class="tablinks2" onclick="openPanel(event, 'UsersTable'), getTableWithUsers()" id="defaultOpen2" >Users Table</button>
+        <button class="tablinks2" onclick="openPanel(event, 'New User'), addUser()">New User</button>
+    </div>
+
+    <!-- Tab content -->
+    <div id="UsersTable" class="tabcontent2">
+        <div style="text-align: left; font-size: 20px; padding: 15px">All users</div>
+        <table id = "adminTable" class="userTable" style="padding: 10px;">
+            <tr class="userTable">
+                <th class="userTable">ID</th>
+                <th class="userTable">First Name</th>
+                <th class="userTable">Last Name</th>
+                <th class="userTable">Email</th>
+                <th class="userTable">Roles</th>
+                <th class="userTable">Edit</th>
+                <th class="userTable">Delete</th>
+            </tr>
+        </table>
+    </div>
+        <div id="editUserModal" class="modal" aria-labelledby="editUserModalLabel">
+            <div class="container1" >
+                <form  class ="modal-content" >
+
+                    <div style="text-align: left; font-size: 20px; background-color: #e7e7e7; padding: 10px 15px 5px;">Edit user
+                        <span onclick="document.getElementById('editUserModal').style.display='none'" class="close" title="Close Modal">×</span></div>
+                    <label for="editUserId"style="text-align: center;">
+                        <div>ID</div>
+                        <input name="id" id ="editUserId" type="text" readonly>
+                    </label>
+                    <label for="editFirstName" style="text-align: center">
+                        <div>First Name</div>
+                        <input type="text" name="firstName" id="editFirstName">
+                    </label>
+                    <label for="editLastName" style="text-align: center">
+                        <div>Last Name</div>
+                        <input type="text" name="lastName" id="editLastName">
+                    </label>
+                    <label for="editEmail" style="text-align: center">
+                        <div>Email</div>
+                        <input type="text" name="email" id="editEmail">
+                    </label>
+                    <label for="editPassword" style="text-align: center">
+                        <div>Password</div>
+                        <input type="password" name="password" id="editPassword">
+                    </label>
+                    <label for="editRoles" style="text-align: center">
+                        <div>Roles</div>
+                        <select multiple name="roles" id="editRoles">
+                            <option value="ROLE_ADMIN">ADMIN</option>
+                            <option value="ROLE_USER">USER</option>
+                        </select>
+                    </label>
+                    <div style="text-align: center; padding: 10px">
+                        <input style="background-color: #6b6b6b; color: white; border: none; height: 35px; margin-right: 10px; width: 80px" type="button" onclick="document.getElementById('editUserModal').style.display='none'" value="Close">
+                        <input type="submit" value="Edit" id = "editUserButton">
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div id="deleteUserModal" class="modal">
+            <div class="container1">
+                <form class ="modal-content" >
+
+                    <div style="text-align: left; font-size: 20px; background-color: #e7e7e7; padding: 10px 15px 5px;">Delete user
+                        <span onclick="document.getElementById('deleteUserModal').style.display='none'" class="close" title="Close Modal">×</span></div>
+                    <label for="deleteUserId"style="text-align: center;">
+                        <div>ID</div>
+                        <input name="id" id ="deleteUserId" type="text" readonly>
+                    </label>
+                    <label for="deleteFirstName" style="text-align: center">
+                        <div>First Name</div>
+                        <input type="text" name="firstName" id="deleteFirstName" readonly>
+                    </label>
+                    <label for="deleteLastName" style="text-align: center">
+                        <div>Last Name</div>
+                        <input type="text" name="lastName" id="deleteLastName" readonly>
+                    </label>
+                    <label for="deleteEmail" style="text-align: center">
+                        <div>Email</div>
+                        <input type="text" name="email" id="deleteEmail" readonly >
+                    </label>
+                    <div>
+                        <div style="text-align: center">Role:
+                            <p><select style="background-color: #d7d7d7" class="user-select-auto" name="roles" multiple readonly>
+                                <option value=2> ADMIN </option>
+                                <option value=1> USER </option>
+                            </select></p>
+                        </div>
+                    </div>
+                    <div style="text-align: right; padding: 10px; background-color: #e7e7e7">
+                        <input style="background-color: #6b6b6b; color: white; border: none; height: 35px; margin-right: 10px; width: 80px" type="button" onclick="document.getElementById('deleteUserModal').style.display='none'" value="Close">
+                        <input  id = "deleteUser" style="background-color: #f52c2c; color: white; border: none; height: 35px; width: 100px " type="submit" value="Delete">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="New User" class="tabcontent2">
+        <div style="text-align: left; font-size: 20px;background-color: #e7e4e4;padding: 5px">Add new user </div>
+        <form class ="modal-content1" id = "addUserForm">
+
+            <div style="text-align: center; padding-top: 10px" >First Name
+                <div>
+                    <input type="text" id ="addFirstName" name="firstName" placeholder="First Name" required>
+                </div>
+            </div>
+            <div style="text-align: center"> Last Name
+                <div>
+                    <input type="text" id = "addLastName" name="lastName" placeholder="Last Name" required>
+                </div>
+            </div>
+            <div style="text-align: center"> Email
+                <div>
+                    <input type="text" id = "addEmail" name="email" placeholder="Email" required >
+                </div>
+            </div>
+            <div style="text-align: center">Password
+                <div>
+                    <input type="password" id = "addPassword" name="password" placeholder="Password" required>
+                </div>
+            </div>
+            <div style="text-align: center ">Role
+                <div style="text-align: center">
+                    <select class="user-select-auto" id = "addRoles" name="roles" multiple required>
+                        <option value="ROLE_ADMIN"> ADMIN </option>
+                        <option value="ROLE_USER"> USER </option>
+                    </select>
+                </div>
+            </div>
+            <div style="text-align: center">
+                <input style="background-color: #4CAF50; color: white; border: none; margin: 10px; width: 15%; text-align: center; align-self: center" id = "addUserButton" type="submit" value="Add New User">
+            </div>
+        </form>
+    </div>
+</div>
+<div id="UserInformPage" class="tabcontent">
+    <h3>User information-page</h3>
+    <div style="text-align: left; font-size: 20px; padding: 15px">About user</div>
+    <table id = "userTable" class="userTable">
+        <tr class="userTable">
+            <th class="userTable">ID</th>
+            <th class="userTable">First Name</th>
+            <th class="userTable">Last Name</th>
+            <th class="userTable">Email</th>
+            <th class="userTable">Roles</th>
+        </tr>
+    </table>
+</div>
+
+<script src="/REST_API_script.js"></script>
+
+</body>
+</html>
