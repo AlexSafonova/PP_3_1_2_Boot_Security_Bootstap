@@ -3,8 +3,15 @@ package ru.kata.spring.boot_security.demo.dto;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+
 @Component
 public class UserDTO {
+    private Long id;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String password;
+    private List<String> roles;
     public UserDTO() {
     }
 
@@ -24,11 +31,6 @@ public class UserDTO {
         this.password = password;
         this.roles = roles;
     }
-
-    private Long id;
-    private String firstName;
-    private String lastName;
-    private String email;
 
     public Long getId() {
         return id;
@@ -77,7 +79,4 @@ public class UserDTO {
     public void setRoles(List<String> roles) {
         this.roles = roles;
     }
-
-    private String password;
-    private List<String> roles;
 }

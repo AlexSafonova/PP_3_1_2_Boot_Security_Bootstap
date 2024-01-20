@@ -105,16 +105,39 @@ body {font-family: "Lato", sans-serif;}
     width: 70%;
     border-left: none;
     height: 600px;
+    display: none;
+}
+
+.tabcontent2 {
+    padding: 0px 12px;
+    border: 1px solid #ccc;
+    width: 100%;
+    border-left: none;
+    display: none;
+    height: 450px;
+
+}
+
+.tabcontent3 {
+    float: left;
+    padding: 0px 12px;
+    border: 1px solid #ccc;
+    width: 70%;
+    border-left: none;
+    height: 450px;
+
 }
 table.userTable  {
     background-color: #cccccc;
     width: 100%;
+
 }
 tr.userTable  {
     background-color: #f3f3f3;
     height: 40px;
     border-top: #807e7e 1px;
     padding: 10px;
+
 }
 tr:nth-child(even) {
     background-color: #E5E5E5FF;
@@ -123,6 +146,7 @@ td.userTable  {
     height: 40px;
     padding: 10px;
     border-top: #807e7e 1px;
+
 }
 th.userTable  {
     height: 40px;
@@ -148,7 +172,7 @@ input[readonly] {
 }
 
 /* Set a style for all buttons */
-button.editButton {
+button.editButtonUserTable {
     background-color: rgba(58, 122, 196, 0.97);
     color: white;
     padding: 5px 5px;
@@ -156,7 +180,8 @@ button.editButton {
     cursor: pointer;
     width: 70%;
 }
-button.deleteButton {
+
+button.deleteButtonUserTable {
     background-color: #e32020;
     color: white;
     padding: 5px 5px;
@@ -164,6 +189,31 @@ button.deleteButton {
     cursor: pointer;
     width: 70%;
 }
+
+.deleteUserSubmit {
+    background-color: #f52c2c;
+    color: white;
+    border: none;
+    height: 35px;
+    width: 100px
+}
+
+.editUserSubmit {
+    background-color: rgba(14, 222, 97, 0.97);
+    color: white;
+    border: none;
+    height: 35px;
+    width: 50px;
+}
+
+.addUserSubmit {
+    background-color: rgba(7, 141, 62, 0.97);
+    color: #100f0f;
+    border: none;
+    height: 35px;
+    width: 150px;
+}
+
 .container1 {
     padding: 16px;
 }
@@ -197,7 +247,10 @@ button.deleteButton {
     background-color: #fefefe;
     width: 100%;
     height: 100%;
+
 }
+
+
 #nav-item li a:active {
     background-color: #7B7B7B;
 }

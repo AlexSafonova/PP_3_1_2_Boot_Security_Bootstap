@@ -14,11 +14,14 @@ import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repository.RoleRepository;
 import ru.kata.spring.boot_security.demo.repository.UserRepository;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class UserServiceImpl implements UserDetailsService{
+public class UserServiceImpl implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
@@ -76,7 +79,7 @@ public class UserServiceImpl implements UserDetailsService{
     @Transactional(readOnly = true)
     public List<UserDTO> getAllUsers() {
         List<UserDTO> usersDTO = new ArrayList<>();
-       List<User> users = userRepository.findAll();
+        List<User> users = userRepository.findAll();
         for (User user : users) {
             UserDTO userDTO = new UserDTO();
             userDTO.setId(user.getId());
@@ -89,11 +92,13 @@ public class UserServiceImpl implements UserDetailsService{
         }
         return usersDTO;
     }
+
     @Transactional
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByEmail(username);
     }
+
     @Transactional(readOnly = true)
     public UserDTO getUser(Long id) {
         User user = userRepository.findById(id).orElse(null);

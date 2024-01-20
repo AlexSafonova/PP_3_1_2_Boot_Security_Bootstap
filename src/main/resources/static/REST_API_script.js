@@ -1,4 +1,45 @@
+async function fillHeader() {
+    let user = await fetch('http://localhost:8080/users/user');
+    user = await user.json();
+    document.getElementsByClassName('headerForUserFirst')[0].textContent = "User " + user.email + " with roles: " + user.roles.map(role => role.substring(5)).join(', ');
+}
 
+fillHeader();
+
+async function fillTable() {
+    let user = await fetch('http://localhost:8080/users/user');
+    user = await user.json();
+
+    let table = document.getElementById('userTable');
+    if (table.rows.length > 1) {
+        table.deleteRow(1);
+    }
+    let row = document.createElement('tr');
+
+    let cell0 = document.createElement('td');
+
+    cell0.textContent = user.id;
+    let cell1 = document.createElement('td');
+
+    cell1.textContent = user.firstName;
+    let cell2 = document.createElement('td');
+
+    cell2.textContent = user.lastName;
+    let cell3 = document.createElement('td');
+
+    cell3.textContent = user.email;
+    let cell4 = document.createElement('td');
+
+    cell4.textContent = user.roles.map(role => role.substring(5)).join(', ');
+
+    row.insertCell().appendChild(cell0);
+    row.insertCell().appendChild(cell1);
+    row.insertCell().appendChild(cell2);
+    row.insertCell().appendChild(cell3);
+    row.insertCell().appendChild(cell4);
+    row.setAttribute("class", "userTable");
+    table.appendChild(row);
+}
 function openCity(evt, cityName) {
     var i, tabcontent, tablinks;
     tabcontent = document.getElementsByClassName("tabcontent");
@@ -51,31 +92,50 @@ async function getTableWithUsers() {
     let response = await fetch('http://localhost:8080/users');
     let users = await response.json();
     let fragment = document.createDocumentFragment();
+
     users.forEach(function (user) {
         let row = document.createElement('tr');
-        row.insertCell(0).innerHTML = user.id;
-        row.insertCell(1).innerHTML = user.firstName;
-        row.insertCell(2).innerHTML = user.lastName;
-        row.insertCell(3).innerHTML = user.email;
-        row.insertCell(4).innerHTML = user.roles.map(function(str) {
-            return str.length > 5 ? str.substring(5) : str;
-        }).join(", ");
+        row.id = "rowUserTable" + user.id;
+        let cell0 = document.createElement('td');
+        cell0.id = "cellUserTable0" + user.id;
+        cell0.textContent = user.id;
+        let cell1 = document.createElement('td');
+        cell1.id = "cellUserTable1" + user.id;
+        cell1.textContent = user.firstName;
+        let cell2 = document.createElement('td');
+        cell2.id = "cellUserTable2" + user.id;
+        cell2.textContent = user.lastName;
+        let cell3 = document.createElement('td');
+        cell3.id = "cellUserTable3" + user.id;
+        cell3.textContent = user.email;
+        let cell4 = document.createElement('td');
+        cell4.id = "cellUserTable4" + user.id;
+        cell4.textContent = user.roles.map(role => role.substring(5)).join(', ');
+        row.insertCell().appendChild(cell0);
+        row.insertCell().appendChild(cell1);
+        row.insertCell().appendChild(cell2);
+        row.insertCell().appendChild(cell3);
+        row.insertCell().appendChild(cell4);
 
         let editButton = document.createElement('button');
         editButton.textContent = 'Edit';
-        editButton.addEventListener('click', function() {
+        editButton.setAttribute("class", "editButtonUserTable");
+        editButton.addEventListener('click', function () {
             editUser(user.id);
         });
         row.insertCell(5).appendChild(editButton);
         let deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete';
+        deleteButton.setAttribute("class", "deleteButtonUserTable");
         deleteButton.addEventListener('click', function() {
             deleteUser(user.id);
         });
         row.insertCell(6).appendChild(deleteButton);
+        row.setAttribute('class', 'userTable');
         fragment.appendChild(row);
     });
     table.appendChild(fragment);
+    table.setAttribute('class', 'userTable');
 }
 async function deleteUser(id) {
     let user = await fetch("http://localhost:8080/users/" + id);
@@ -89,32 +149,30 @@ async function deleteUser(id) {
         let response = await fetch(`http://localhost:8080/users/${id}`, {
             method: 'DELETE'
         });
-        if (response.ok) {
-            document.getElementById('deleteUserModal').style.display = 'none';
-            getTableWithUsers();
-        }
-
     })
-
+    return user.body;
 }
 
  async function editUser(id) {
    let user = await fetch('http://localhost:8080/users/' + id);
    user = await user.json();
-
     document.getElementById('editUserModal').style.display = 'block';
     document.getElementById('editUserId').value = id;
     document.getElementById('editFirstName').value = user.firstName;
     document.getElementById('editLastName').value = user.lastName;
     document.getElementById('editEmail').value = user.email;
     document.getElementById('editPassword').value = "";
-     document.getElementById("editUserButton").addEventListener('click',  async function() {
-         await editUserConfirm();
 
-     });
 }
 
-async function editUserConfirm() {
+document.getElementById("editUserButton").addEventListener('click', async function () {
+    await editClick();
+    await getTableWithUsers();
+    document.getElementById('editUserModal').style.display = 'none';
+
+});
+
+async function editClick() {
     let response = await fetch(`http://localhost:8080/users`, {
         method: 'PUT',
         headers: {
@@ -129,23 +187,23 @@ async function editUserConfirm() {
             roles: Array.from(document.getElementById('editRoles').selectedOptions).map(option => option.value)
         })
     });
-    if (response.ok) {
-        document.getElementById('editUserModal').style.display = 'none';
-    }
 }
-async function addUser() {
 
-    const addUserForm = document.getElementById('addUserForm');
+const addUserForm = document.getElementById('addUserForm');
+document.getElementById('addUserButton').addEventListener('click', async function () {
+    let response = await handleSubmit();
+    await addUserForm.reset();
+    await getTableWithUsers();
+    await openPanel(event, 'UsersTable');
+
+});
+
+async function handleSubmit() {
     const addFirstName = document.getElementById('addFirstName');
     const addLastName = document.getElementById('addLastName');
     const addEmail = document.getElementById('addEmail');
     const addPassword = document.getElementById('addPassword');
-
-
-    addUserForm.addEventListener('submit', handleSubmit);
-
-    async function handleSubmit() {
-        await fetch(`http://localhost:8080/users`, {
+    let response = await fetch(`http://localhost:8080/users`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -157,10 +215,8 @@ async function addUser() {
                 password: addPassword.value,
                 roles: Array.from(document.getElementById('addRoles').selectedOptions).map(option => option.value)
             })
-        }).then(getTableWithUsers())
-
-
-    }
+    });
+    return response;
 }
 
 

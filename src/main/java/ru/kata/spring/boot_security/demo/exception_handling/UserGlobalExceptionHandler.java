@@ -12,12 +12,14 @@ public class UserGlobalExceptionHandler {
         data.setMessage(e.getMessage());
         return ResponseEntity.badRequest().body(data);
     }
+
     @ExceptionHandler
     public ResponseEntity<UserIncorrectData> handleException(UserAlreadyExistException e) {
         UserIncorrectData data = new UserIncorrectData();
         data.setMessage(e.getMessage());
         return ResponseEntity.badRequest().body(data);
     }
+
     @ExceptionHandler
     public ResponseEntity<UserIncorrectData> handleException(Exception e) {
         UserIncorrectData data = new UserIncorrectData();

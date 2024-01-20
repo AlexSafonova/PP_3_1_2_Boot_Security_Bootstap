@@ -2,6 +2,7 @@ package ru.kata.spring.boot_security.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.dto.UserDTO;
 import ru.kata.spring.boot_security.demo.exception_handling.UserNotExistException;
@@ -37,7 +38,7 @@ public class RESTController {
     @PostMapping
     public ResponseEntity<String> addUser(@RequestBody UserDTO userDTO) {
         userService.addUser(userDTO);
-        return ResponseEntity.ok("User " + userDTO.getEmail() + " was added");
+        return ResponseEntity.ok("User was added");
     }
     @PutMapping
     public ResponseEntity<String> updateUser(@RequestBody UserDTO userDTO) {
@@ -52,5 +53,12 @@ public class RESTController {
         userService.deleteUser(id);
         return ResponseEntity.ok("User with id " + id + " was deleted");
     }
+
+    @GetMapping("/user")
+    public UserDTO showUser(Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        return userService.getUser(user.getId());
+    }
+
 
 }

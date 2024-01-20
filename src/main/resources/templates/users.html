@@ -10,7 +10,6 @@
     <table class="headerForUser">
         <tr>
             <td class="headerForUserFirst">
-                 TODO
             </td>
             <td class="headerForUserSecond">
                 <form th:action="@{/logout}" method="post">
@@ -23,14 +22,14 @@
 
 <div class="tab">
     <button class="tablinks" onclick="openCity(event, 'Admin')" id="defaultOpen">Admin</button>
-    <button class="tablinks" onclick="openCity(event, 'UserInformPage')" >User</button>
+    <button class="tablinks" onclick="openCity(event, 'UserInformPage'), fillTable()">User</button>
 </div>
 
 <div id="Admin" class="tabcontent">
     <h3>Admin panel</h3><!-- Tab links -->
     <div class="tab1">
         <button class="tablinks2" onclick="openPanel(event, 'UsersTable'), getTableWithUsers()" id="defaultOpen2" >Users Table</button>
-        <button class="tablinks2" onclick="openPanel(event, 'New User'), addUser()">New User</button>
+        <button class="tablinks2" onclick="openPanel(event, 'New User')">New User</button>
     </div>
 
     <!-- Tab content -->
@@ -51,7 +50,6 @@
         <div id="editUserModal" class="modal" aria-labelledby="editUserModalLabel">
             <div class="container1" >
                 <form  class ="modal-content" >
-
                     <div style="text-align: left; font-size: 20px; background-color: #e7e7e7; padding: 10px 15px 5px;">Edit user
                         <span onclick="document.getElementById('editUserModal').style.display='none'" class="close" title="Close Modal">×</span></div>
                     <label for="editUserId"style="text-align: center;">
@@ -76,14 +74,14 @@
                     </label>
                     <label for="editRoles" style="text-align: center">
                         <div>Roles</div>
-                        <select multiple name="roles" id="editRoles">
+                        <select class="user-select-auto" id="editRoles" multiple name="roles">
                             <option value="ROLE_ADMIN">ADMIN</option>
                             <option value="ROLE_USER">USER</option>
                         </select>
                     </label>
-                    <div style="text-align: center; padding: 10px">
+                    <div style="text-align: right; padding: 10px">
                         <input style="background-color: #6b6b6b; color: white; border: none; height: 35px; margin-right: 10px; width: 80px" type="button" onclick="document.getElementById('editUserModal').style.display='none'" value="Close">
-                        <input type="submit" value="Edit" id = "editUserButton">
+                        <input class="editUserSubmit" id="editUserButton" type="button" value="Edit">
                     </div>
                 </form>
             </div>
@@ -120,17 +118,16 @@
                     </div>
                     <div style="text-align: right; padding: 10px; background-color: #e7e7e7">
                         <input style="background-color: #6b6b6b; color: white; border: none; height: 35px; margin-right: 10px; width: 80px" type="button" onclick="document.getElementById('deleteUserModal').style.display='none'" value="Close">
-                        <input  id = "deleteUser" style="background-color: #f52c2c; color: white; border: none; height: 35px; width: 100px " type="submit" value="Delete">
+                        <input class="deleteUserSubmit" id="deleteUser" type="submit" value="Delete">
                     </div>
                 </form>
             </div>
         </div>
-    </div>
     <div id="New User" class="tabcontent2">
+        <div class="modal-content1" id="addUserModal">
         <div style="text-align: left; font-size: 20px;background-color: #e7e4e4;padding: 5px">Add new user </div>
         <form class ="modal-content1" id = "addUserForm">
-
-            <div style="text-align: center; padding-top: 10px" >First Name
+            <div style="text-align: center">First Name
                 <div>
                     <input type="text" id ="addFirstName" name="firstName" placeholder="First Name" required>
                 </div>
@@ -159,10 +156,12 @@
                 </div>
             </div>
             <div style="text-align: center">
-                <input style="background-color: #4CAF50; color: white; border: none; margin: 10px; width: 15%; text-align: center; align-self: center" id = "addUserButton" type="submit" value="Add New User">
+                <input class="addUserSubmit" id="addUserButton" type="button" value="Add New User"></input>
             </div>
         </form>
+        </div>
     </div>
+</div>
 </div>
 <div id="UserInformPage" class="tabcontent">
     <h3>User information-page</h3>
