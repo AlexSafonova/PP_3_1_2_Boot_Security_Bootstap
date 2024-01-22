@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.dto.UserDTO;
 import ru.kata.spring.boot_security.demo.exception_handling.UserNotExistException;
 import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.spring.boot_security.demo.service.UserService;
 import ru.kata.spring.boot_security.demo.service.UserServiceImpl;
 
 import java.util.List;
@@ -15,13 +16,13 @@ import java.util.List;
 @RequestMapping("/users")
 
 public class RESTController {
-    private final UserServiceImpl userService;
-    private final UserDTO userDTO;
+    private final UserService userService;
+
 
     @Autowired
-    public RESTController(UserServiceImpl userService, UserDTO userDTO) {
+    public RESTController(UserService userService) {
         this.userService = userService;
-        this.userDTO = userDTO;
+
     }
     @GetMapping
     public List<UserDTO> getAllUsers() {

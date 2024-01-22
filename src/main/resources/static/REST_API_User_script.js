@@ -1,5 +1,5 @@
 async function fillHeader() {
-    let user = await fetch('http://localhost:8080/users/user');
+    let user = await fetch('/users/user');
     user = await user.json();
     document.getElementsByClassName('headerForUserFirst')[0].textContent = "User " + user.email + " with roles: " + user.roles.map(role => role.substring(5)).join(', ');
     await fillTable(user);

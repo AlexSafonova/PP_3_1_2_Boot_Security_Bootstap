@@ -1,5 +1,5 @@
 async function fillHeader() {
-    let user = await fetch('http://localhost:8080/users/user');
+    let user = await fetch('/users/user');
     user = await user.json();
     document.getElementsByClassName('headerForUserFirst')[0].textContent = "User " + user.email + " with roles: " + user.roles.map(role => role.substring(5)).join(', ');
 }
@@ -7,7 +7,7 @@ async function fillHeader() {
 fillHeader();
 
 async function fillTable() {
-    let user = await fetch('http://localhost:8080/users/user');
+    let user = await fetch('users/user');
     user = await user.json();
 
     let table = document.getElementById('userTable');
@@ -89,7 +89,7 @@ async function getTableWithUsers() {
         "                <th class=\"userTable\">Edit</th>\n" +
         "                <th class=\"userTable\">Delete</th>\n" +
         "            </tr>";
-    let response = await fetch('http://localhost:8080/users');
+    let response = await fetch('/users');
     let users = await response.json();
     let fragment = document.createDocumentFragment();
 
@@ -138,7 +138,7 @@ async function getTableWithUsers() {
     table.setAttribute('class', 'userTable');
 }
 async function deleteUser(id) {
-    let user = await fetch("http://localhost:8080/users/" + id);
+    let user = await fetch("/users/" + id);
     user = await user.json();
     document.getElementById('deleteUserModal').style.display = 'block';
     document.getElementById('deleteUserId').value = id;
@@ -146,7 +146,7 @@ async function deleteUser(id) {
     document.getElementById('deleteLastName').value = user.lastName;
     document.getElementById('deleteEmail').value = user.email;
     document.getElementById("deleteUser").addEventListener('click', async function() {
-        let response = await fetch(`http://localhost:8080/users/${id}`, {
+        let response = await fetch(`/users/${id}`, {
             method: 'DELETE'
         });
     })
@@ -154,7 +154,7 @@ async function deleteUser(id) {
 }
 
  async function editUser(id) {
-   let user = await fetch('http://localhost:8080/users/' + id);
+   let user = await fetch('/users/' + id);
    user = await user.json();
     document.getElementById('editUserModal').style.display = 'block';
     document.getElementById('editUserId').value = id;
@@ -173,7 +173,7 @@ document.getElementById("editUserButton").addEventListener('click', async functi
 });
 
 async function editClick() {
-    let response = await fetch(`http://localhost:8080/users`, {
+    let response = await fetch(`/users`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -203,7 +203,7 @@ async function handleSubmit() {
     const addLastName = document.getElementById('addLastName');
     const addEmail = document.getElementById('addEmail');
     const addPassword = document.getElementById('addPassword');
-    let response = await fetch(`http://localhost:8080/users`, {
+    let response = await fetch(`/users`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
